@@ -1,4 +1,12 @@
- file name: app.py 
+bash:
+pip install Flask flask_sqlalchemy
+
+Project Structure:
+bookstore_api/
+├── app.py
+└── models.py
+
+app.py :
 
  from flask import Flask, request, jsonify
 from models import db, Book
@@ -61,8 +69,26 @@ def delete_book(id):
 if __name__ == '__main__':
     app.run(debug=True)
 
+ models.py:
 
+    from flask_sqlalchemy import SQLAlchemy
 
-    filename: models.py
+db = SQLAlchemy()
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    published_year = db.Column(db.Integer)
+    price = db.Column(db.Float)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'author': self.author,
+            'published_year': self.published_year,
+            'price': self.price
+        }
 
     
